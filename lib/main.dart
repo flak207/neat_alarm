@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -41,21 +42,20 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
-    AppBar appBarObj = AppBar(title: const Text('Neat Alarm'));
+    AppBar appBarWdg = AppBar(title: const Text('Neat Alarm'));
 
     var button = ElevatedButton(
-        child: const Text("Set Alarm", style: TextStyle(fontSize: 22)),
+        child: const Text('Set Alarm', style: TextStyle(fontSize: 22)),
         onPressed: () {
-          debugPrint("Clicked!!!");
+          DateTime now = DateTime.now();
+          String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(now);
+          debugPrint('Clicked $formattedDate');
         });
-    Widget bodyObj = Center(child: button);
+    Widget bodyWdg = Center(child: button);
 
-    Scaffold scaffold = Scaffold(appBar: appBarObj, body: bodyObj);
+    Scaffold scaffold = Scaffold(appBar: appBarWdg, body: bodyWdg);
     // MaterialApp, CupertinoApp, WidgetsApp
-    var baseApp = MaterialApp(
-      home: scaffold,
-      color: Colors.lightGreen,
-    );
+    MaterialApp baseApp = MaterialApp(home: scaffold);
     return baseApp;
   }
 }
