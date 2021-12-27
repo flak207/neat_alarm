@@ -44,14 +44,21 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     AppBar appBarWdg = AppBar(title: const Text('Neat Alarm'));
 
-    var button = ElevatedButton(
-        child: const Text('Set Alarm', style: TextStyle(fontSize: 22)),
+    var btnAddAlarm = ElevatedButton(
+        child: const Text(
+          'Add New Alarm',
+          style: TextStyle(fontSize: 18),
+        ),
         onPressed: () {
           DateTime now = DateTime.now();
           String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(now);
           debugPrint('Clicked $formattedDate');
         });
-    Widget bodyWdg = Center(child: button);
+    var btnContainer = Container(
+        margin: const EdgeInsets.all(10),
+        width: double.infinity,
+        child: btnAddAlarm);
+    Widget bodyWdg = Column(children: [btnContainer]);
 
     Scaffold scaffold = Scaffold(appBar: appBarWdg, body: bodyWdg);
     // MaterialApp, CupertinoApp, WidgetsApp
