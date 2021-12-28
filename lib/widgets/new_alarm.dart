@@ -35,7 +35,7 @@ class _NewAlarmState extends State<NewAlarm> {
             TextField(
               decoration: const InputDecoration(labelText: 'Description'),
               controller: _descriptionController,
-              keyboardType: TextInputType.multiline,
+              // keyboardType: TextInputType.multiline,
               // onSubmitted: (_) => _submitData(),
               // onChanged: (val) => amountInput = val,
             ),

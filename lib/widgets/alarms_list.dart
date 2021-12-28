@@ -67,5 +67,6 @@ class _AlarmsListState extends State<AlarmsList> {
     setState(() {
       _alarms.add(newAlarm);
     });
+    StorageService().setAlarms(_alarms);
   }
 }
