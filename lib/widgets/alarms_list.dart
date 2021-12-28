@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/services/storage_service.dart';
+import 'package:neat_alarm/widgets/new_alarm.dart';
 
 class AlarmsList extends StatefulWidget {
   const AlarmsList({Key? key}) : super(key: key);
@@ -13,11 +14,11 @@ class AlarmsList extends StatefulWidget {
 }
 
 class _AlarmsListState extends State<AlarmsList> {
-  List<Alarm> alarms = [];
+  List<Alarm> _alarms = [];
 
   @override
   void initState() {
-    alarms = StorageService().getAlarms();
+    _alarms = StorageService().getAlarms();
     super.initState();
   }
 
@@ -28,15 +29,43 @@ class _AlarmsListState extends State<AlarmsList> {
     Widget bodyWdg = Column(children: [
       Expanded(
         child: ListView.builder(
-          itemCount: alarms.length,
+          itemCount: _alarms.length,
           itemBuilder: (BuildContext context, int index) {
-            return Text(alarms[index].name);
+            return Text(_alarms[index].name);
           },
         ),
       ),
     ]);
 
-    Scaffold scaffold = Scaffold(appBar: appBarWdg, body: bodyWdg);
+    Scaffold scaffold = Scaffold(
+        appBar: appBarWdg,
+        body: bodyWdg,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () => _startAddNewAlarm(context),
+        ));
     return scaffold;
+  }
+
+  void _startAddNewAlarm(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: NewAlarm(_addNewAlarm),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
+  }
+
+  void _addNewAlarm(
+      String alarmName, String alarmDescription, DateTime alarmDate) {
+    final newAlarm = Alarm(alarmName, alarmDate);
+    setState(() {
+      _alarms.add(newAlarm);
+    });
   }
 }
