@@ -25,12 +25,6 @@ class NotificationService {
 
   // Init Notification Service
   Future<void> init() async {
-    // final NotificationAppLaunchDetails? notificationAppLaunchDetails =
-    //     await _notificationsPlugin.getNotificationAppLaunchDetails();
-    // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
-    //   debugPrint('from background');
-    // }
-
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
 
@@ -46,65 +40,57 @@ class NotificationService {
   }
 
   void showNotification(String notificationMessage) async {
-    var lines = <String>['Message: <b>$notificationMessage</b>'];
-    var inboxStyleInformation = InboxStyleInformation(lines,
-        htmlFormatLines: true,
-        contentTitle: 'overridden <b>inbox</b> context title',
-        htmlFormatContentTitle: true,
-        summaryText: 'summary <i>text</i>',
-        htmlFormatSummaryText: true);
-
-    debugPrint('AllSounds !!!!!!!');
-    Map<Object?, Object?>? data =
-        await _platform.invokeMethod<Map<Object?, Object?>>('getAllSounds');
-    data?.forEach((key, value) {
-      debugPrint('$key : $value');
-    });
-
-    //String? alarmUri = 'content://media/external/audio/media/26242';
-    String? alarmUri = await _platform.invokeMethod<String>('getAlarmUri');
-    debugPrint('URI!!!!!!! $alarmUri');
-    // content://settings/system/alarm_alert
-    final UriAndroidNotificationSound uriSound =
-        UriAndroidNotificationSound(alarmUri!);
-
     var platformChannelSpecifics = NotificationDetails(
       android: AndroidNotificationDetails(
         _channelId,
         applicationName,
-        channelDescription: 'Description 2',
-        importance: Importance.max,
+        fullScreenIntent: true,
+        channelDescription: 'channel $_channelId description',
+        importance: Importance.high,
         playSound: true,
         priority: Priority.high,
-        sound: uriSound,
-        //const RawResourceAndroidNotificationSound('mari'),
-        styleInformation: inboxStyleInformation,
+        //sound: uriSound,
+        // const RawResourceAndroidNotificationSound('slow_spring_board'),
       ),
     );
 
     await _notificationsPlugin.zonedSchedule(
-        12345,
+        0,
         "A Notification From My App",
-        "This notification is brought to you by Local Notifcations Package",
+        "This notification is brought to you by Local Notifcations",
         tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
         platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+  }
 
-// await flutterLocalNotificationsPlugin.show(
-    //     12345,
-    //     "A Notification From My Application",
-    //     "This notification was sent using Flutter Local Notifcations Package",
-    //     platformChannelSpecifics,
-    //     payload: 'data');
+  Future<Map<Object?, Object?>?> getAllSystemSounds() async {
+    Map<Object?, Object?>? data =
+        await _platform.invokeMethod<Map<Object?, Object?>>('getAllSounds');
+    data?.forEach((key, value) {
+      debugPrint('$key : $value');
+    });
+    return data;
+  }
 
-    // await _notificationsPlugin.show(
-    //     12345,
-    //     applicationName,
-    //     notificationMessage,
-    //     NotificationDetails(
-    //         android: AndroidNotificationDetails(_channelId, applicationName)),
-    //     payload: 'info');
+  Future<UriAndroidNotificationSound> getDefaultAlarmSound(String uri) async {
+    //String? alarmUri = 'content://media/external/audio/media/26242';
+    String? alarmUri = await _platform.invokeMethod<String>('getAlarmUri');
+    // content://settings/system/alarm_alert
+    final UriAndroidNotificationSound uriSound =
+        UriAndroidNotificationSound(alarmUri!);
+    return uriSound;
+  }
+
+  Future<bool> wasApplicationLaunchedFromNotification() async {
+    NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        await _notificationsPlugin.getNotificationAppLaunchDetails();
+
+    if (notificationAppLaunchDetails != null) {
+      return notificationAppLaunchDetails.didNotificationLaunchApp;
+    }
+
+    return false;
   }
 }
