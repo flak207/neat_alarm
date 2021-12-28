@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-import '../constants.dart';
+import 'package:neat_alarm/constants.dart';
 
 class NotificationService {
   //#region Singletone
