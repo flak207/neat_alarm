@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:neat_alarm/constants.dart';
@@ -34,10 +36,41 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
 
     Widget bodyWdg = Column(children: [
       Expanded(
-        child: ListView.builder(
+        child: ListView.separated(
           itemCount: _alarms.length,
+          separatorBuilder: (BuildContext context, int index) =>
+              Divider(height: 0, color: appForeground),
           itemBuilder: (BuildContext context, int index) {
-            return Text(_alarms[index].name);
+            final alarm = _alarms[index];
+            return ListTile(
+                title: alarm.buildTitle(context),
+                subtitle: alarm.buildSubtitle(context),
+                // leading: const Icon(Icons.timer),
+                selectedTileColor: Colors.red,
+                isThreeLine: true,
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        alarm.isActive ? Icons.timer : Icons.timer_off,
+                        color: appForeground,
+                      ),
+                      onPressed: () {
+                        _onSwitchIsActivePressed(alarm);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.delete_forever_rounded,
+                        color: appForeground,
+                      ),
+                      onPressed: () {
+                        _onDeleteItemPressed(alarm);
+                      },
+                    ),
+                  ],
+                ));
           },
         ),
       ),
@@ -51,12 +84,15 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
     );
 
     Scaffold scaffold = Scaffold(
-      appBar: appBarWdg,
-      backgroundColor: widgetBackground,
-      body: bodyWdg,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      floatingActionButton: addBtn,
-    );
+        appBar: appBarWdg,
+        backgroundColor: widgetBackground,
+        body: bodyWdg,
+        floatingActionButtonLocation:
+            FloatingActionButtonLocation.miniCenterTop,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(top: 0),
+          child: addBtn,
+        ));
     return scaffold;
   }
 
@@ -70,21 +106,53 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
           //   child: NewTimerAlarmWidget(_addNewAlarm),
           //   behavior: HitTestBehavior.opaque,
           // );
-          return NewTimerAlarmWidget(_addNewAlarm);
+          return NewTimerAlarmWidget(_addNewTimer);
         },
         isScrollControlled: true,
         backgroundColor: appBackground);
   }
 
-  void _addNewAlarm(
-      String alarmName, String alarmDescription, DateTime alarmDate) {
-    final newAlarm =
-        TimerAlarm(alarmName, alarmDate, description: alarmDescription);
-
+  void _addNewTimer(TimerAlarm alarm) {
     setState(() {
-      _alarms.add(newAlarm);
+      _alarms.add(alarm);
+      NotificationService().scheduleAlarmNotification(alarm);
+      addLocalTimer(alarm);
     });
-    StorageService().setAlarms(_alarms);
-    NotificationService().scheduleAlarm(newAlarm);
+    //StorageService().setAlarms(_alarms);
+  }
+
+  void _onDeleteItemPressed(TimerAlarm alarm) {
+    setState(() {
+      _alarms.remove(alarm);
+    });
+    NotificationService().cancelAlarmNotification(alarm);
+  }
+
+  void _onSwitchIsActivePressed(TimerAlarm alarm) {
+    setState(() {
+      alarm.isActive = !alarm.isActive;
+      if (alarm.isActive) {
+        alarm.dateTime = DateTime.now().add(Duration(
+            hours: alarm.hours,
+            minutes: alarm.minutes,
+            seconds: alarm.seconds));
+        NotificationService().scheduleAlarmNotification(alarm);
+        addLocalTimer(alarm);
+      } else {
+        NotificationService().cancelAlarmNotification(alarm);
+      }
+    });
+  }
+
+  void addLocalTimer(alarm) {
+    Duration difference =
+        alarm.dateTime.difference(DateTime.now()) + const Duration(seconds: 2);
+    Timer(
+        difference,
+        () => setState(() {
+              for (var element in _alarms) {
+                element.isActive = element.dateTime.isAfter(DateTime.now());
+              }
+            }));
   }
 }

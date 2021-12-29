@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 const nameKey = "name";
 const dateTimeKey = "dateTime";
 const descriptionKey = "description";
@@ -36,4 +39,24 @@ class Alarm {
         soundPathKey: soundPath,
         isActiveKey: isActive
       };
+
+  Widget buildTitle(BuildContext context) => Text(name);
+
+  Widget buildSubtitle(BuildContext context) {
+    String subtitle = '$description\n';
+    if (isActive) {
+      subtitle +=
+          'The alarm goes off at: ${DateFormat('HH:mm:ss').format(dateTime)}';
+    } else {
+      subtitle += 'The alarm is not active';
+    }
+    return Text(subtitle);
+  }
+
+  String getFormatedTime() => DateFormat('HH:mm:ss').format(dateTime);
+
+  String getFormatedDate() => DateFormat('yyyy-MM-dd').format(dateTime);
+
+  String getFormatedDateTime() =>
+      DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
 }

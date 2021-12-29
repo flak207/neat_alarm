@@ -66,12 +66,10 @@ class NotificationService {
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  void scheduleAlarm(Alarm alarm) async {
+  void scheduleAlarmNotification(Alarm alarm) async {
     DateTime now = DateTime.now();
-    DateTime birthdayDate = alarm.dateTime;
-    Duration difference = now.isAfter(birthdayDate)
-        ? now.difference(birthdayDate)
-        : birthdayDate.difference(now);
+    DateTime dt = alarm.dateTime;
+    Duration difference = dt.difference(now);
 
     var platformChannelSpecifics = NotificationDetails(
       android: AndroidNotificationDetails(
@@ -87,11 +85,23 @@ class NotificationService {
       ),
     );
 
-    await _notificationsPlugin.zonedSchedule(0, alarm.name, alarm.description,
-        tz.TZDateTime.now(tz.local).add(difference), platformChannelSpecifics,
+    await _notificationsPlugin.zonedSchedule(
+        alarm.hashCode,
+        alarm.name,
+        alarm.description,
+        tz.TZDateTime.now(tz.local).add(difference),
+        platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
+  void cancelAlarmNotification(Alarm alarm) async {
+    await _notificationsPlugin.cancel(alarm.hashCode);
+  }
+
+  void cancelAllNotifications() async {
+    await _notificationsPlugin.cancelAll();
   }
 
   Future<Map<Object?, Object?>?> getAllSystemSounds() async {

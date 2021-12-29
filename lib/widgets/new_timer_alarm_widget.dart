@@ -3,14 +3,15 @@ import 'package:flutter_spinbox/flutter_spinbox.dart';
 
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/helpers.dart';
+import 'package:neat_alarm/models/timer_alarm.dart';
 
 const nameHint = 'New Timer';
 const descriptionHint = 'Some description...';
 
 class NewTimerAlarmWidget extends StatefulWidget {
-  final Function addAlarm;
+  final Function addTimer;
 
-  const NewTimerAlarmWidget(this.addAlarm, {Key? key}) : super(key: key);
+  const NewTimerAlarmWidget(this.addTimer, {Key? key}) : super(key: key);
 
   @override
   _NewTimerAlarmWidgetState createState() => _NewTimerAlarmWidgetState();
@@ -22,7 +23,6 @@ class _NewTimerAlarmWidgetState extends State<NewTimerAlarmWidget> {
   double _hours = 0;
   double _minutes = 0;
   double _seconds = 0;
-  DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -113,17 +113,15 @@ class _NewTimerAlarmWidgetState extends State<NewTimerAlarmWidget> {
       return;
     }
 
-    var duration = Duration(
-        hours: _hours.toInt(),
-        minutes: _minutes.toInt(),
-        seconds: _seconds.toInt());
-    _selectedDate = DateTime.now().add(duration);
+    int hours = _hours.toInt();
+    int minutes = _minutes.toInt();
+    int seconds = _seconds.toInt();
+    var dateTime = DateTime.now()
+        .add(Duration(hours: hours, minutes: minutes, seconds: seconds));
+    final newTimer = TimerAlarm(name, dateTime, hours, minutes, seconds,
+        description: description);
 
-    widget.addAlarm(
-      name,
-      description,
-      _selectedDate,
-    );
+    widget.addTimer(newTimer);
     Navigator.of(context).pop();
   }
 }
