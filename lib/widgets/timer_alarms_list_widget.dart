@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
+import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
 import 'package:neat_alarm/widgets/new_timer_alarm_widget.dart';
 
@@ -61,23 +62,29 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
 
   void _startAddNewAlarm(BuildContext ctx) {
     showModalBottomSheet(
-      context: ctx,
-      builder: (_) {
-        return GestureDetector(
-          onTap: () {},
-          child: NewTimerAlarmWidget(_addNewAlarm),
-          behavior: HitTestBehavior.opaque,
-        );
-      },
-    );
+        context: ctx,
+        //isDismissible: false,
+        builder: (BuildContext context) {
+          // return GestureDetector(
+          //   onTap: () {},
+          //   child: NewTimerAlarmWidget(_addNewAlarm),
+          //   behavior: HitTestBehavior.opaque,
+          // );
+          return NewTimerAlarmWidget(_addNewAlarm);
+        },
+        isScrollControlled: true,
+        backgroundColor: appBackground);
   }
 
   void _addNewAlarm(
       String alarmName, String alarmDescription, DateTime alarmDate) {
-    final newAlarm = TimerAlarm(alarmName, alarmDate);
+    final newAlarm =
+        TimerAlarm(alarmName, alarmDate, description: alarmDescription);
+
     setState(() {
       _alarms.add(newAlarm);
     });
     StorageService().setAlarms(_alarms);
+    NotificationService().scheduleAlarm(newAlarm);
   }
 }

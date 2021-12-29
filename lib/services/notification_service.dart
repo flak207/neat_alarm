@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import 'package:neat_alarm/constants.dart';
+import 'package:neat_alarm/models/alarm.dart';
 
 class NotificationService {
   //#region Singletone
@@ -56,10 +57,38 @@ class NotificationService {
 
     await _notificationsPlugin.zonedSchedule(
         0,
-        "A Notification From My App",
-        "This notification is brought to you by Local Notifcations",
-        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+        notificationMessage,
+        '',
+        tz.TZDateTime.now(tz.local).add(const Duration(seconds: 1)),
         platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
+  }
+
+  void scheduleAlarm(Alarm alarm) async {
+    DateTime now = DateTime.now();
+    DateTime birthdayDate = alarm.dateTime;
+    Duration difference = now.isAfter(birthdayDate)
+        ? now.difference(birthdayDate)
+        : birthdayDate.difference(now);
+
+    var platformChannelSpecifics = NotificationDetails(
+      android: AndroidNotificationDetails(
+        _channelId,
+        applicationName,
+        fullScreenIntent: true,
+        channelDescription: 'channel $_channelId description',
+        importance: Importance.high,
+        playSound: true,
+        priority: Priority.high,
+        //sound: uriSound,
+        // const RawResourceAndroidNotificationSound('slow_spring_board'),
+      ),
+    );
+
+    await _notificationsPlugin.zonedSchedule(0, alarm.name, alarm.description,
+        tz.TZDateTime.now(tz.local).add(difference), platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
