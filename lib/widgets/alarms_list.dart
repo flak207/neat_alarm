@@ -24,7 +24,13 @@ class _AlarmsListState extends State<AlarmsList> {
 
   @override
   Widget build(BuildContext context) {
-    AppBar appBarWdg = AppBar(title: const Text(applicationName));
+    AppBar appBarWdg = AppBar(
+      title: const Text(alarmsTitle),
+      backgroundColor: appBackground,
+      foregroundColor: appForeground,
+      shadowColor: appForeground,
+      toolbarHeight: 50,
+    );
 
     Widget bodyWdg = Column(children: [
       Expanded(
@@ -37,14 +43,24 @@ class _AlarmsListState extends State<AlarmsList> {
       ),
     ]);
 
+    var addBtn = FloatingActionButton(
+      backgroundColor: appBackground,
+      foregroundColor: appForeground,
+      child: const Icon(Icons.add),
+      onPressed: () => _startAddNewAlarm(context),
+    );
     Scaffold scaffold = Scaffold(
-        appBar: appBarWdg,
-        body: bodyWdg,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () => _startAddNewAlarm(context),
-        ));
+      appBar: appBarWdg,
+      backgroundColor: Colors.amber[200],
+      body: bodyWdg,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+      floatingActionButton: addBtn,
+      // Padding(
+      //   padding: const EdgeInsets.only(top: 13),
+      //   //alignment: Alignment(1, 0),
+      //   child: addBtn,
+      // ),
+    );
     return scaffold;
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
+import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
 import 'package:neat_alarm/widgets/alarms_list.dart';
@@ -10,41 +12,75 @@ Future<void> main() async {
   await NotificationService().init();
   await StorageService().init();
   tz.initializeTimeZones();
-  runApp(const App());
+  runApp(const AppWidget());
 }
 
-class App extends StatefulWidget {
-  const App({Key? key}) : super(key: key);
+class AppWidget extends StatelessWidget {
+  const AppWidget({Key? key}) : super(key: key);
 
-  @override
-  _AppState createState() => _AppState();
-}
-
-class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
-    // AppBar appBarWdg = AppBar(title: const Text('Neat Alarm'));
-    // var btnAddAlarm = ElevatedButton(
-    //     child: const Text(
-    //       'Add New Alarm 7',
-    //       style: TextStyle(fontSize: 18),
-    //     ),
-    //     onPressed: () async {
-    //       DateTime now = DateTime.now();
-    //       String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    //       debugPrint('Clicked $formattedDate');
+    return const MaterialApp(
+      title: applicationName,
+      home: NavigationWidget(),
+    );
+  }
+}
 
-    //       NotificationService().showNotification("TEST");
-    //     });
-    // var btnContainer = Container(
-    //     margin: const EdgeInsets.all(10),
-    //     width: double.infinity,
-    //     child: btnAddAlarm);
-    // Widget bodyWdg = Column(children: [btnContainer]);
-    // Scaffold scaffold = Scaffold(appBar: appBarWdg, body: bodyWdg);
+class NavigationWidget extends StatefulWidget {
+  const NavigationWidget({Key? key}) : super(key: key);
 
-    // MaterialApp, CupertinoApp, WidgetsApp
-    const MaterialApp baseApp = MaterialApp(home: AlarmsList());
-    return baseApp;
+  @override
+  _NavigationWidgetState createState() => _NavigationWidgetState();
+}
+
+class _NavigationWidgetState extends State<NavigationWidget> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+  static const List<Widget> _widgetOptions = <Widget>[
+    AlarmsList(),
+    AlarmsList(),
+    AlarmsList(),
+    Text(
+      'Calendar',
+      style: optionStyle,
+    )
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: const Text(applicationName),
+      //   backgroundColor: appBackground,
+      //   foregroundColor: appForeground,
+      //   shadowColor: appForeground,
+      //   toolbarHeight: 40,
+      // ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: ConvexAppBar(
+          activeColor: appForeground,
+          backgroundColor: appBackground,
+          color: appForeground,
+          style: TabStyle.textIn,
+          items: const <TabItem>[
+            TabItem(icon: Icons.alarm_outlined, title: 'Alarms'),
+            TabItem(icon: Icons.timer_outlined, title: 'Timers'),
+            TabItem(icon: Icons.calendar_today_outlined, title: 'Calendar'),
+          ],
+          initialActiveIndex: 1,
+          onTap: _onItemTapped //(int i) => print('click index=$i'),
+          ),
+    );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
