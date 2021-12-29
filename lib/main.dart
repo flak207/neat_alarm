@@ -36,29 +36,16 @@ class NavigationWidget extends StatefulWidget {
 
 class _NavigationWidgetState extends State<NavigationWidget> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static const List<Widget> _widgetOptions = <Widget>[
     AlarmsList(),
     AlarmsList(),
     AlarmsList(),
-    Text(
-      'Calendar',
-      style: optionStyle,
-    )
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text(applicationName),
-      //   backgroundColor: appBackground,
-      //   foregroundColor: appForeground,
-      //   shadowColor: appForeground,
-      //   toolbarHeight: 40,
-      // ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
@@ -73,8 +60,7 @@ class _NavigationWidgetState extends State<NavigationWidget> {
             TabItem(icon: Icons.calendar_today_outlined, title: 'Calendar'),
           ],
           initialActiveIndex: 1,
-          onTap: _onItemTapped //(int i) => print('click index=$i'),
-          ),
+          onTap: _onItemTapped),
     );
   }
 

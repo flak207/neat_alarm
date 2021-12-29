@@ -5,3 +5,4 @@ const String alarmsTitle = "Alarms";
 
 final Color? appBackground = Colors.amber[500];
 final Color? appForeground = Colors.grey[850];
+final Color? widgetBackground = Colors.amber[200];

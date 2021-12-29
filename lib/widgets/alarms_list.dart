@@ -49,17 +49,13 @@ class _AlarmsListState extends State<AlarmsList> {
       child: const Icon(Icons.add),
       onPressed: () => _startAddNewAlarm(context),
     );
+
     Scaffold scaffold = Scaffold(
       appBar: appBarWdg,
-      backgroundColor: Colors.amber[200],
+      backgroundColor: widgetBackground,
       body: bodyWdg,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: addBtn,
-      // Padding(
-      //   padding: const EdgeInsets.only(top: 13),
-      //   //alignment: Alignment(1, 0),
-      //   child: addBtn,
-      // ),
     );
     return scaffold;
   }
