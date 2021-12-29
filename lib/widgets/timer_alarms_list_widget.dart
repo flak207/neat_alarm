@@ -1,31 +1,30 @@
-// AlarmsListWidget
 import 'package:flutter/material.dart';
 
 import 'package:neat_alarm/constants.dart';
-import 'package:neat_alarm/models/alarm.dart';
+import 'package:neat_alarm/models/timer_alarm.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/new_alarm_widget.dart';
+import 'package:neat_alarm/widgets/new_timer_alarm_widget.dart';
 
-class AlarmsListWidget extends StatefulWidget {
-  const AlarmsListWidget({Key? key}) : super(key: key);
+class TimerAlarmsListWidget extends StatefulWidget {
+  const TimerAlarmsListWidget({Key? key}) : super(key: key);
 
   @override
-  _AlarmsListWidgetState createState() => _AlarmsListWidgetState();
+  _TimerAlarmsListWidgetState createState() => _TimerAlarmsListWidgetState();
 }
 
-class _AlarmsListWidgetState extends State<AlarmsListWidget> {
-  List<Alarm> _alarms = [];
+class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
+  List<TimerAlarm> _alarms = [];
 
   @override
   void initState() {
-    _alarms = StorageService().getAlarms();
+    _alarms = []; //StorageService().getAlarms();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     AppBar appBarWdg = AppBar(
-      title: const Text(alarmsTitle),
+      title: const Text(timersTitle),
       backgroundColor: appBackground,
       foregroundColor: appForeground,
       shadowColor: appForeground,
@@ -66,7 +65,7 @@ class _AlarmsListWidgetState extends State<AlarmsListWidget> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewAlarmWidget(_addNewAlarm),
+          child: NewTimerAlarmWidget(_addNewAlarm),
           behavior: HitTestBehavior.opaque,
         );
       },
@@ -75,7 +74,7 @@ class _AlarmsListWidgetState extends State<AlarmsListWidget> {
 
   void _addNewAlarm(
       String alarmName, String alarmDescription, DateTime alarmDate) {
-    final newAlarm = Alarm(alarmName, alarmDate);
+    final newAlarm = TimerAlarm(alarmName, alarmDate);
     setState(() {
       _alarms.add(newAlarm);
     });

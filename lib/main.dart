@@ -5,7 +5,9 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/alarms_list_widget.dart';
+import 'package:neat_alarm/widgets/clock_alarms_list_widget.dart';
+import 'package:neat_alarm/widgets/timer_alarms_list_widget.dart';
+import 'package:neat_alarm/widgets/calendar_alarms_list_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,12 +37,12 @@ class NavigationWidget extends StatefulWidget {
 }
 
 class _NavigationWidgetState extends State<NavigationWidget> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    AlarmsListWidget(),
-    AlarmsListWidget(),
-    AlarmsListWidget(),
+    ClockAlarmsListWidget(),
+    TimerAlarmsListWidget(),
+    CalendarAlarmsListWidget(),
   ];
 
   @override
@@ -55,11 +57,11 @@ class _NavigationWidgetState extends State<NavigationWidget> {
           color: appForeground,
           style: TabStyle.textIn,
           items: const <TabItem>[
-            TabItem(icon: Icons.alarm_outlined, title: 'Alarms'),
-            TabItem(icon: Icons.timer_outlined, title: 'Timers'),
-            TabItem(icon: Icons.calendar_today_outlined, title: 'Calendar'),
+            TabItem(icon: Icons.alarm_outlined, title: alarmsTitle),
+            TabItem(icon: Icons.timer_outlined, title: timersTitle),
+            TabItem(icon: Icons.calendar_today_outlined, title: calendarTitle),
           ],
-          initialActiveIndex: 1,
+          initialActiveIndex: _selectedIndex,
           onTap: _onItemTapped),
     );
   }
