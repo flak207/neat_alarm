@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/new_alarm.dart';
+import 'package:neat_alarm/widgets/new_alarm_widget.dart';
 
-class AlarmsList extends StatefulWidget {
-  const AlarmsList({Key? key}) : super(key: key);
+class AlarmsListWidget extends StatefulWidget {
+  const AlarmsListWidget({Key? key}) : super(key: key);
 
   @override
-  _AlarmsListState createState() => _AlarmsListState();
+  _AlarmsListWidgetState createState() => _AlarmsListWidgetState();
 }
 
-class _AlarmsListState extends State<AlarmsList> {
+class _AlarmsListWidgetState extends State<AlarmsListWidget> {
   List<Alarm> _alarms = [];
 
   @override
@@ -66,7 +66,7 @@ class _AlarmsListState extends State<AlarmsList> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewAlarm(_addNewAlarm),
+          child: NewAlarmWidget(_addNewAlarm),
           behavior: HitTestBehavior.opaque,
         );
       },

@@ -5,7 +5,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/alarms_list.dart';
+import 'package:neat_alarm/widgets/alarms_list_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,9 +38,9 @@ class _NavigationWidgetState extends State<NavigationWidget> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    AlarmsList(),
-    AlarmsList(),
-    AlarmsList(),
+    AlarmsListWidget(),
+    AlarmsListWidget(),
+    AlarmsListWidget(),
   ];
 
   @override
