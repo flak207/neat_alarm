@@ -8,16 +8,16 @@ import 'package:neat_alarm/models/timer_alarm.dart';
 const nameHint = 'New Timer';
 const descriptionHint = 'Some description...';
 
-class NewTimerAlarmWidget extends StatefulWidget {
+class TimerAlarmWidget extends StatefulWidget {
   final Function addTimer;
 
-  const NewTimerAlarmWidget(this.addTimer, {Key? key}) : super(key: key);
+  const TimerAlarmWidget(this.addTimer, {Key? key}) : super(key: key);
 
   @override
-  _NewTimerAlarmWidgetState createState() => _NewTimerAlarmWidgetState();
+  _TimerAlarmWidgetState createState() => _TimerAlarmWidgetState();
 }
 
-class _NewTimerAlarmWidgetState extends State<NewTimerAlarmWidget> {
+class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   double _hours = 0;

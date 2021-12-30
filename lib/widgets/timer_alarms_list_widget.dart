@@ -6,7 +6,7 @@ import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/new_timer_alarm_widget.dart';
+import 'package:neat_alarm/widgets/timer_alarm_widget.dart';
 
 class TimerAlarmsListWidget extends StatefulWidget {
   const TimerAlarmsListWidget({Key? key}) : super(key: key);
@@ -106,7 +106,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
           //   child: NewTimerAlarmWidget(_addNewAlarm),
           //   behavior: HitTestBehavior.opaque,
           // );
-          return NewTimerAlarmWidget(_addNewTimer);
+          return TimerAlarmWidget(_addNewTimer);
         },
         isScrollControlled: true,
         backgroundColor: appBackground);

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/new_clock_alarm_widget.dart';
+import 'package:neat_alarm/widgets/clock_alarm_widget.dart';
 
 class ClockAlarmsListWidget extends StatefulWidget {
   const ClockAlarmsListWidget({Key? key}) : super(key: key);
@@ -65,7 +65,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: NewClockAlarmWidget(_addNewAlarm),
+          child: ClockAlarmWidget(_addNewAlarm),
           behavior: HitTestBehavior.opaque,
         );
       },

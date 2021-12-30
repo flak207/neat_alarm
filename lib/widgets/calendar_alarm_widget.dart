@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NewClockAlarmWidget extends StatefulWidget {
+class CalendarAlarmWidget extends StatefulWidget {
   final Function addAlarm;
 
-  const NewClockAlarmWidget(this.addAlarm, {Key? key}) : super(key: key);
+  const CalendarAlarmWidget(this.addAlarm, {Key? key}) : super(key: key);
 
   @override
-  _NewClockAlarmWidgetState createState() => _NewClockAlarmWidgetState();
+  _CalendarAlarmWidgetState createState() => _CalendarAlarmWidgetState();
 }
 
-class _NewClockAlarmWidgetState extends State<NewClockAlarmWidget> {
+class _CalendarAlarmWidgetState extends State<CalendarAlarmWidget> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
