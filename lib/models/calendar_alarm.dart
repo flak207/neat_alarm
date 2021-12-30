@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:neat_alarm/models/alarm.dart';
 
 const isRecurringKey = "isRecurring";
@@ -29,5 +31,16 @@ class CalendarAlarm extends Alarm {
     };
     baseMap[isRecurringKey] = isRecurring;
     return baseMap;
+  }
+
+  @override
+  Widget buildSubtitle(BuildContext context) {
+    String subtitle = '${DateFormat('yyyy-MM-dd').format(dateTime)}\n';
+    if (isActive) {
+      subtitle += 'Alarm time: ${DateFormat('HH:mm:ss').format(dateTime)}';
+    } else {
+      subtitle += 'The alarm is not active.';
+    }
+    return Text(subtitle);
   }
 }

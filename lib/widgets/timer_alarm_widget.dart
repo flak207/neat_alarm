@@ -77,6 +77,7 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
         ],
       ),
     );
+
     return SingleChildScrollView(
       child: Card(
         borderOnForeground: false,
