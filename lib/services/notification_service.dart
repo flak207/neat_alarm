@@ -71,26 +71,23 @@ class NotificationService {
     DateTime dt = alarm.dateTime;
     Duration difference = dt.difference(now);
 
-    var platformChannelSpecifics = NotificationDetails(
-      android: AndroidNotificationDetails(
-        _channelId,
-        applicationName,
+    var alarmSound = alarm.soundPath.isEmpty
+        ? null
+        : UriAndroidNotificationSound(alarm.soundPath);
+    var androidDetails = AndroidNotificationDetails(_channelId, applicationName,
         fullScreenIntent: true,
         channelDescription: 'channel $_channelId description',
         importance: Importance.high,
         playSound: true,
         priority: Priority.high,
-        //sound: uriSound,
-        // const RawResourceAndroidNotificationSound('slow_spring_board'),
-      ),
-    );
+        sound: alarmSound);
 
     await _notificationsPlugin.zonedSchedule(
         alarm.hashCode,
         alarm.name,
         alarm.description,
         tz.TZDateTime.now(tz.local).add(difference),
-        platformChannelSpecifics,
+        NotificationDetails(android: androidDetails),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
@@ -104,16 +101,14 @@ class NotificationService {
     await _notificationsPlugin.cancelAll();
   }
 
-  Future<Map<Object?, Object?>?> getAllSystemSounds() async {
+  Future<Map<String, String>?> getAllSystemSounds() async {
     Map<Object?, Object?>? data =
         await _platform.invokeMethod<Map<Object?, Object?>>('getAllSounds');
-    data?.forEach((key, value) {
-      debugPrint('$key : $value');
-    });
-    return data;
+    Map<String, String>? stringMap = data!.cast<String, String>();
+    return stringMap;
   }
 
-  Future<UriAndroidNotificationSound> getDefaultAlarmSound(String uri) async {
+  Future<UriAndroidNotificationSound> getDefaultAlarmSound() async {
     //String? alarmUri = 'content://media/external/audio/media/26242';
     String? alarmUri = await _platform.invokeMethod<String>('getAlarmUri');
     // content://settings/system/alarm_alert

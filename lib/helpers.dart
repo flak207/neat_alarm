@@ -8,6 +8,8 @@ Future<void> showInfoDialog(BuildContext context, String text,
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text(title),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         content: Text(text),
         actions: <Widget>[
           TextButton(

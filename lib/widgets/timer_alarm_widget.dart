@@ -4,6 +4,7 @@ import 'package:flutter_spinbox/flutter_spinbox.dart';
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/helpers.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
+import 'package:neat_alarm/widgets/sound_dialog.dart';
 
 const nameHint = 'New Timer';
 const descriptionHint = 'Some description...';
@@ -26,6 +27,9 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
   num _minutes = 0;
   num _seconds = 0;
 
+  String _soundName = 'Default Sound';
+  String _soundPath = '';
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +40,8 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
 
       _nameController.text = widget.alarm!.name;
       _descriptionController.text = widget.alarm!.description;
+      _soundName = widget.alarm!.soundName;
+      _soundPath = widget.alarm!.soundPath;
     }
   }
 
@@ -48,6 +54,29 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
       child: Text(widget.alarm != null ? 'Update Timer' : 'Add Timer'),
     );
 
+    var soundContainer = Container(
+      decoration: const BoxDecoration(
+          border: Border(
+              bottom: BorderSide(
+        color: Colors.grey,
+      ))),
+      height: 50,
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              _soundName,
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(primary: Colors.blue),
+            onPressed: _selectSound,
+            child: const Text('Choose Sound'),
+          )
+        ],
+      ),
+    );
     return SingleChildScrollView(
       child: Card(
         borderOnForeground: false,
@@ -70,6 +99,7 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
                 decoration: const InputDecoration(hintText: descriptionHint),
                 controller: _descriptionController,
               ),
+              soundContainer,
               SpinBox(
                   min: 0,
                   value: _hours.toDouble(),
@@ -96,13 +126,22 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
     );
   }
 
+  void _selectSound() {
+    showSoundDialog(context, _soundName, _updateSound);
+  }
+
+  void _updateSound(String soundName, String soundPath) {
+    setState(() {
+      _soundName = soundName;
+      _soundPath = soundPath;
+    });
+  }
+
   void _submitData() {
     final name = _nameController.text.isEmpty ? nameHint : _nameController.text;
     final description =
         _descriptionController.text.isEmpty ? '' : _descriptionController.text;
     if (_hours == 0 && _minutes == 0 && _seconds == 0) {
-      debugPrint('Invalid timer!');
-
       showInfoDialog(context,
           'At least one of parameters (hours, minutes, seconds) must be positive number!',
           title: 'Invalid timer parameters');
@@ -118,7 +157,9 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
     var alarm = widget.alarm;
     if (alarm == null) {
       alarm = TimerAlarm(name, dateTime, hours, minutes, seconds,
-          description: description);
+          description: description,
+          soundName: _soundName,
+          soundPath: _soundPath);
     } else {
       alarm.hours = hours;
       alarm.minutes = minutes;
@@ -126,6 +167,8 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
       alarm.dateTime = dateTime;
       alarm.name = name;
       alarm.description = description;
+      alarm.soundName = _soundName;
+      alarm.soundPath = _soundPath;
     }
 
     widget.addTimer(alarm);

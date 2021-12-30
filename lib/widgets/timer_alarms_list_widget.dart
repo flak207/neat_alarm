@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:neat_alarm/constants.dart';
+import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
@@ -168,7 +169,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
     });
   }
 
-  void _addLocalTimer(alarm) {
+  void _addLocalTimer(Alarm alarm) {
     Duration difference =
         alarm.dateTime.difference(DateTime.now()) + const Duration(seconds: 2);
     Timer(difference, () => setState(() => _updateAlarmsState()));
