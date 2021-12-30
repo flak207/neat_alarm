@@ -16,7 +16,7 @@ class ClockAlarm extends Alarm {
             isActive: isActive);
 
   ClockAlarm.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
-    isRecurring = json[isRecurringKey];
+    isRecurring = json[isRecurringKey] ?? false;
   }
 
   @override
@@ -35,10 +35,10 @@ class ClockAlarm extends Alarm {
 
   @override
   Widget buildSubtitle(BuildContext context) {
-    String subtitle = '$description\n';
+    String subtitle = '${DateFormat('HH:mm:ss').format(dateTime)}\n';
     if (isActive) {
       subtitle +=
-          'Alarm time: ${DateFormat('HH:mm:ss yyyy-MM-dd').format(dateTime)}';
+          'Alarm time: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime)}';
     } else {
       subtitle += 'The alarm is not active.';
     }

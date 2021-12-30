@@ -56,7 +56,9 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
                 horizontalTitleGap: 5,
                 leading: IconButton(
                   icon: Icon(
-                    alarm.isActive ? Icons.timer : Icons.timer_off,
+                    alarm.isActive
+                        ? Icons.notifications
+                        : Icons.notifications_off,
                     color: Colors.blue[500],
                   ),
                   onPressed: () {
@@ -164,10 +166,6 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
         if (alarm.dateTime.isBefore(DateTime.now())) {
           alarm.dateTime = Jiffy(alarm.dateTime).add(years: 1).dateTime;
         }
-        // alarm.dateTime = DateTime.now().add(Duration(
-        //     hours: alarm.hours,
-        //     minutes: alarm.minutes,
-        //     seconds: alarm.seconds));
         NotificationService().scheduleAlarmNotification(alarm);
         _addLocalTimer(alarm);
       } else {

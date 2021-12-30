@@ -56,14 +56,10 @@ class _CalendarAlarmWidgetState extends State<CalendarAlarmWidget> {
                   : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
             ),
           ),
-          // ignore: deprecated_member_use
-          FlatButton(
-            textColor: Theme.of(context).primaryColor,
+          TextButton(
+            style: TextButton.styleFrom(primary: Colors.blue),
             child: const Text(
-              'Choose Date',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              'Choose Time',
             ),
             onPressed: _presentDatePicker,
           ),

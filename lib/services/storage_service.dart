@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:neat_alarm/models/calendar_alarm.dart';
+import 'package:neat_alarm/models/clock_alarm.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'package:neat_alarm/models/alarm.dart';
 
 class StorageService {
   //#region Singletone
@@ -26,24 +26,19 @@ class StorageService {
     _sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
-  List<Alarm> getAlarms() {
-    // return [
-    //   Alarm('Alarm 1', DateTime.now().add(const Duration(days: 1))),
-    //   Alarm('Alarm 2', DateTime.now().add(const Duration(days: 2)))
-    // ];
-
+  List<ClockAlarm> getClockAlarms() {
     String? alarmsString = _sharedPreferences!.getString(_alarmsKey);
     if (alarmsString == null) {
       return [];
     }
     List decodedAlarms = jsonDecode(alarmsString);
-    List<Alarm> alarms = decodedAlarms
-        .map((decodedAlarm) => Alarm.fromJson(decodedAlarm))
+    List<ClockAlarm> alarms = decodedAlarms
+        .map((decodedAlarm) => ClockAlarm.fromJson(decodedAlarm))
         .toList();
     return alarms;
   }
 
-  void setAlarms(List<Alarm> alarms) {
+  void setClockAlarms(List<ClockAlarm> alarms) {
     String encoded = jsonEncode(alarms);
     _sharedPreferences!.setString(_alarmsKey, encoded);
   }
