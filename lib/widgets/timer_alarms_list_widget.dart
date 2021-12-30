@@ -44,26 +44,38 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
             final alarm = _alarms[index];
             return ListTile(
                 title: alarm.buildTitle(context),
+                tileColor:
+                    index % 2 == 0 ? Colors.transparent : widgetBackgroundDark,
                 subtitle: alarm.buildSubtitle(context),
-                // leading: const Icon(Icons.timer),
-                selectedTileColor: Colors.red,
+                // minLeadingWidth: 10,
+                contentPadding: EdgeInsets.zero,
+                horizontalTitleGap: 5,
+                leading: IconButton(
+                  icon: Icon(
+                    alarm.isActive ? Icons.timer : Icons.timer_off,
+                    color: Colors.blue[500],
+                  ),
+                  onPressed: () {
+                    _onSwitchIsActivePressed(alarm);
+                  },
+                ),
                 isThreeLine: true,
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     IconButton(
                       icon: Icon(
-                        alarm.isActive ? Icons.timer : Icons.timer_off,
+                        Icons.edit_notifications,
                         color: appForeground,
                       ),
                       onPressed: () {
-                        _onSwitchIsActivePressed(alarm);
+                        _onEditItemPressed(alarm);
                       },
                     ),
                     IconButton(
                       icon: Icon(
                         Icons.delete_forever_rounded,
-                        color: appForeground,
+                        color: Colors.red[600],
                       ),
                       onPressed: () {
                         _onDeleteItemPressed(alarm);
@@ -85,7 +97,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
 
     Scaffold scaffold = Scaffold(
         appBar: appBarWdg,
-        backgroundColor: widgetBackground,
+        backgroundColor: widgetBackgroundLight,
         body: bodyWdg,
         floatingActionButtonLocation:
             FloatingActionButtonLocation.miniCenterTop,
@@ -101,11 +113,6 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
         context: ctx,
         //isDismissible: false,
         builder: (BuildContext context) {
-          // return GestureDetector(
-          //   onTap: () {},
-          //   child: NewTimerAlarmWidget(_addNewAlarm),
-          //   behavior: HitTestBehavior.opaque,
-          // );
           return TimerAlarmWidget(_addNewTimer);
         },
         isScrollControlled: true,
@@ -114,11 +121,27 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
 
   void _addNewTimer(TimerAlarm alarm) {
     setState(() {
-      _alarms.add(alarm);
-      NotificationService().scheduleAlarmNotification(alarm);
-      addLocalTimer(alarm);
+      if (!_alarms.contains(alarm)) {
+        _alarms.insert(0, alarm);
+      } else {
+        NotificationService().cancelAlarmNotification(alarm);
+      }
+      if (alarm.isActive) {
+        NotificationService().scheduleAlarmNotification(alarm);
+        addLocalTimer(alarm);
+      }
     });
     //StorageService().setAlarms(_alarms);
+  }
+
+  void _onEditItemPressed(TimerAlarm alarm) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return TimerAlarmWidget(_addNewTimer, alarm: alarm);
+        },
+        isScrollControlled: true,
+        backgroundColor: appBackground);
   }
 
   void _onDeleteItemPressed(TimerAlarm alarm) {
@@ -151,7 +174,8 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
         difference,
         () => setState(() {
               for (var element in _alarms) {
-                element.isActive = element.dateTime.isAfter(DateTime.now());
+                element.isActive = element.isActive &&
+                    element.dateTime.isAfter(DateTime.now());
               }
             }));
   }

@@ -51,7 +51,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
 
     Scaffold scaffold = Scaffold(
       appBar: appBarWdg,
-      backgroundColor: widgetBackground,
+      backgroundColor: widgetBackgroundLight,
       body: bodyWdg,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: addBtn,

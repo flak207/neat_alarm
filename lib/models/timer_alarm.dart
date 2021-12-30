@@ -17,10 +17,10 @@ class TimerAlarm extends Alarm {
 
   @override
   Widget buildSubtitle(BuildContext context) {
-    String subtitle = 'Hours: $hours, Minutes: $minutes, Seconds: $seconds.\n';
+    String subtitle = 'Hours: $hours, Minutes: $minutes, Seconds: $seconds\n';
     if (isActive) {
       subtitle +=
-          'The alarm goes off at: ${DateFormat('HH:mm:ss').format(dateTime)}.';
+          'Alarm time: ${DateFormat('HH:mm:ss yyyy-MM-dd').format(dateTime)}';
     } else {
       subtitle += 'The timer is not active.';
     }

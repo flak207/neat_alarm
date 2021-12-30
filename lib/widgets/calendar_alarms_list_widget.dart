@@ -52,7 +52,7 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
 
     Scaffold scaffold = Scaffold(
       appBar: appBarWdg,
-      backgroundColor: widgetBackground,
+      backgroundColor: widgetBackgroundLight,
       body: bodyWdg,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: addBtn,
