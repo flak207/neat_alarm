@@ -3,7 +3,6 @@ import 'package:flutter_spinbox/flutter_spinbox.dart';
 
 import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/helpers.dart';
-import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
 
 const nameHint = 'New Timer';

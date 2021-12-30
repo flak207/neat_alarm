@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:neat_alarm/models/alarm.dart';
 
+const hoursKey = "hours";
+const minutesKey = "minutes";
+const secondsKey = "seconds";
+
 class TimerAlarm extends Alarm {
   int hours = 0;
   int minutes = 0;
@@ -14,6 +18,28 @@ class TimerAlarm extends Alarm {
             soundName: soundName,
             soundPath: soundPath,
             isActive: isActive);
+
+  TimerAlarm.fromJson(Map<String, dynamic> json) : super.fromJson(json) {
+    hours = json[hoursKey];
+    minutes = json[minutesKey];
+    seconds = json[secondsKey];
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> baseMap = {
+      nameKey: name,
+      dateTimeKey: dateTime.toIso8601String(),
+      descriptionKey: description,
+      soundNameKey: soundName,
+      soundPathKey: soundPath,
+      isActiveKey: isActive
+    };
+    baseMap[hoursKey] = hours;
+    baseMap[minutesKey] = minutes;
+    baseMap[secondsKey] = seconds;
+    return baseMap;
+  }
 
   @override
   Widget buildSubtitle(BuildContext context) {

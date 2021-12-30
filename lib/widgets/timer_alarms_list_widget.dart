@@ -20,7 +20,8 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
 
   @override
   void initState() {
-    _alarms = []; //StorageService().getAlarms();
+    _alarms = StorageService().getTimers();
+    _updateAlarmsState();
     super.initState();
   }
 
@@ -128,10 +129,10 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
       }
       if (alarm.isActive) {
         NotificationService().scheduleAlarmNotification(alarm);
-        addLocalTimer(alarm);
+        _addLocalTimer(alarm);
       }
     });
-    //StorageService().setAlarms(_alarms);
+    StorageService().setTimers(_alarms);
   }
 
   void _onEditItemPressed(TimerAlarm alarm) {
@@ -160,23 +161,23 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
             minutes: alarm.minutes,
             seconds: alarm.seconds));
         NotificationService().scheduleAlarmNotification(alarm);
-        addLocalTimer(alarm);
+        _addLocalTimer(alarm);
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
     });
   }
 
-  void addLocalTimer(alarm) {
+  void _addLocalTimer(alarm) {
     Duration difference =
         alarm.dateTime.difference(DateTime.now()) + const Duration(seconds: 2);
-    Timer(
-        difference,
-        () => setState(() {
-              for (var element in _alarms) {
-                element.isActive = element.isActive &&
-                    element.dateTime.isAfter(DateTime.now());
-              }
-            }));
+    Timer(difference, () => setState(() => _updateAlarmsState()));
+  }
+
+  void _updateAlarmsState() {
+    for (var element in _alarms) {
+      element.isActive =
+          element.isActive && element.dateTime.isAfter(DateTime.now());
+    }
   }
 }
