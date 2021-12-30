@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:neat_alarm/models/calendar_alarm.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +20,7 @@ class StorageService {
   SharedPreferences? _sharedPreferences;
   final String _alarmsKey = "neat_alarms";
   final String _timersKey = "neat_timers";
-  // final String _calendarKey = "neat_calendar";
+  final String _calendarKey = "neat_calendars";
 
   Future<void> init() async {
     _sharedPreferences ??= await SharedPreferences.getInstance();
@@ -62,6 +63,23 @@ class StorageService {
   void setTimers(List<TimerAlarm> alarms) {
     String encoded = jsonEncode(alarms);
     _sharedPreferences!.setString(_timersKey, encoded);
+  }
+
+  List<CalendarAlarm> getCalendarAlarms() {
+    String? alarmsString = _sharedPreferences!.getString(_calendarKey);
+    if (alarmsString == null) {
+      return [];
+    }
+    List decodedAlarms = jsonDecode(alarmsString);
+    List<CalendarAlarm> alarms = decodedAlarms
+        .map((decodedAlarm) => CalendarAlarm.fromJson(decodedAlarm))
+        .toList();
+    return alarms;
+  }
+
+  void setCalendarAlarms(List<CalendarAlarm> alarms) {
+    String encoded = jsonEncode(alarms);
+    _sharedPreferences!.setString(_calendarKey, encoded);
   }
 
   Future<bool> clearAll() async {

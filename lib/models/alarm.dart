@@ -46,9 +46,9 @@ class Alarm {
     String subtitle = '$description\n';
     if (isActive) {
       subtitle +=
-          'The alarm goes off at: ${DateFormat('HH:mm:ss').format(dateTime)}';
+          'Alarm time: ${DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime)}';
     } else {
-      subtitle += 'The alarm is not active';
+      subtitle += 'The alarm is not active.';
     }
     return Text(subtitle);
   }
