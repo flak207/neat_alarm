@@ -36,6 +36,7 @@ class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
     super.initState();
     if (widget.alarm != null) {
       _isRecurring = widget.alarm!.isRecurring;
+      _selectedDate = widget.alarm!.dateTime;
 
       _nameController.text = widget.alarm!.name;
       _descriptionController.text = widget.alarm!.description;
