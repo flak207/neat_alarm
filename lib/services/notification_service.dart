@@ -20,7 +20,7 @@ class NotificationService {
 
   static const MethodChannel _platform = MethodChannel('kea.dev/neat_alarm');
 
-  final _channelId = UniqueKey().toString();
+  // final _channelId = UniqueKey().toString();
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -41,6 +41,7 @@ class NotificationService {
   }
 
   void showNotification(String notificationMessage) async {
+    var _channelId = UniqueKey().toString();
     var platformChannelSpecifics = NotificationDetails(
       android: AndroidNotificationDetails(
         _channelId,
@@ -67,6 +68,7 @@ class NotificationService {
   }
 
   void scheduleAlarmNotification(Alarm alarm) async {
+    var _channelId = UniqueKey().toString();
     DateTime now = DateTime.now();
     DateTime dt = alarm.dateTime;
     Duration difference = dt.difference(now);

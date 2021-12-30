@@ -21,7 +21,7 @@ class MainActivity: FlutterActivity() {
             }
             if ("getAllSounds" == call.method) {
                 val manager = RingtoneManager(this@MainActivity)
-                manager.setType(RingtoneManager.TYPE_RINGTONE)
+                manager.setType(RingtoneManager.TYPE_ALL)
                 val cursor = manager.cursor
 
                 val list = HashMap<String, String>()
