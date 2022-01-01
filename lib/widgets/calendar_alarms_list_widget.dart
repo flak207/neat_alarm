@@ -9,6 +9,7 @@ import 'package:neat_alarm/models/calendar_alarm.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
 import 'package:neat_alarm/widgets/calendar_alarm_widget.dart';
+import 'package:neat_alarm/widgets/item_widget.dart';
 
 class CalendarAlarmsListWidget extends StatefulWidget {
   const CalendarAlarmsListWidget({Key? key}) : super(key: key);
@@ -46,49 +47,8 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
               Divider(height: 0, color: appForeground),
           itemBuilder: (BuildContext context, int index) {
             final alarm = _alarms[index];
-            return ListTile(
-                title: alarm.buildTitle(context),
-                tileColor:
-                    index % 2 == 0 ? Colors.transparent : widgetBackgroundDark,
-                subtitle: alarm.buildSubtitle(context),
-                // minLeadingWidth: 10,
-                contentPadding: EdgeInsets.zero,
-                horizontalTitleGap: 5,
-                leading: IconButton(
-                  icon: Icon(
-                    alarm.isActive
-                        ? Icons.notifications
-                        : Icons.notifications_off,
-                    color: Colors.blue[500],
-                  ),
-                  onPressed: () {
-                    _onSwitchIsActivePressed(alarm);
-                  },
-                ),
-                isThreeLine: true,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.edit_notifications,
-                        color: appForeground,
-                      ),
-                      onPressed: () {
-                        _onEditItemPressed(alarm);
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.delete_forever_rounded,
-                        color: Colors.red[600],
-                      ),
-                      onPressed: () {
-                        _onDeleteItemPressed(alarm);
-                      },
-                    ),
-                  ],
-                ));
+            return ItemWidget(alarm, index, _onSwitchIsActivePressed,
+                _onEditItemPressed, _onDeleteItemPressed);
           },
         ),
       ),

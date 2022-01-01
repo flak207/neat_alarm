@@ -5,7 +5,8 @@ const String alarmsTitle = "Alarms";
 const String timersTitle = "Timers";
 const String calendarTitle = "Calendar";
 
-final Color? appBackground = Colors.amber[500];
+final Color? appBackground = Colors.blue[500];
 final Color? appForeground = Colors.grey[850];
-final Color? widgetBackgroundLight = Colors.amber[200];
-final Color? widgetBackgroundDark = Colors.amber[300];
+final Color? widgetBackgroundLight = Colors.blue[200];
+final Color? widgetBackgroundDark = Colors.blue[300];
+final Color? editButtonColor = Colors.yellow[500];
