@@ -115,8 +115,9 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
   void _onDeleteItemPressed(CalendarAlarm alarm) {
     setState(() {
       _alarms.remove(alarm);
+      NotificationService().cancelAlarmNotification(alarm);
+      StorageService().setCalendarAlarms(_alarms);
     });
-    NotificationService().cancelAlarmNotification(alarm);
   }
 
   void _onSwitchIsActivePressed(CalendarAlarm alarm) {
@@ -131,6 +132,7 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
+      StorageService().setCalendarAlarms(_alarms);
     });
   }
 

@@ -120,8 +120,9 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
   void _onDeleteItemPressed(ClockAlarm alarm) {
     setState(() {
       _alarms.remove(alarm);
+      NotificationService().cancelAlarmNotification(alarm);
+      StorageService().setClockAlarms(_alarms);
     });
-    NotificationService().cancelAlarmNotification(alarm);
   }
 
   void _onSwitchIsActivePressed(ClockAlarm alarm) {
@@ -136,6 +137,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
+      StorageService().setClockAlarms(_alarms);
     });
   }
 

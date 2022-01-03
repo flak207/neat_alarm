@@ -118,8 +118,9 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
   void _onDeleteItemPressed(TimerAlarm alarm) {
     setState(() {
       _alarms.remove(alarm);
+      NotificationService().cancelAlarmNotification(alarm);
+      StorageService().setTimers(_alarms);
     });
-    NotificationService().cancelAlarmNotification(alarm);
   }
 
   void _onSwitchIsActivePressed(TimerAlarm alarm) {
@@ -135,6 +136,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
+      StorageService().setTimers(_alarms);
     });
   }
 
