@@ -62,8 +62,8 @@ class _ListWidgetState<T extends Alarm> extends State<ListWidget> {
               _onSwitchIsActivePressed,
               _onEditAlarmPressed,
               _onDeleteAlarmPressed,
-              activeIcon: Icons.timer,
-              inactiveIcon: Icons.timer_off,
+              activeIcon: alarm.getActiveIcon(),
+              inactiveIcon: alarm.getInactiveIcon(),
             );
           },
         ),

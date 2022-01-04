@@ -65,4 +65,10 @@ class TimerAlarm extends Alarm {
     var retval = TimerAlarmWidget(callback, alarm: this);
     return retval;
   }
+
+  @override
+  IconData getActiveIcon() => Icons.timer;
+
+  @override
+  IconData getInactiveIcon() => Icons.timer_off;
 }

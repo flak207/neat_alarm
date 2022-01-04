@@ -59,4 +59,10 @@ class CalendarAlarm extends Alarm {
     var retval = CalendarAlarmWidget(callback, alarm: this);
     return retval;
   }
+
+  @override
+  IconData getActiveIcon() => Icons.notifications;
+
+  @override
+  IconData getInactiveIcon() => Icons.notifications_off;
 }

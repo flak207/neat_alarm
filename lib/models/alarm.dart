@@ -62,6 +62,10 @@ class Alarm {
 
   Widget buildEditWidget(BuildContext context, Function callback) => Text(name);
 
+  IconData getActiveIcon() => Icons.alarm_on;
+
+  IconData getInactiveIcon() => Icons.alarm_off;
+
   String getFormatedTime() => DateFormat('HH:mm:ss').format(dateTime);
 
   String getFormatedDate() => DateFormat('yyyy-MM-dd').format(dateTime);
