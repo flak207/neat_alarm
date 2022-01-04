@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:neat_alarm/constants.dart';
 
+import 'package:neat_alarm/constants.dart';
 import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/models/calendar_alarm.dart';
 import 'package:neat_alarm/models/clock_alarm.dart';
@@ -11,9 +11,8 @@ import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
 import 'package:neat_alarm/widgets/item_widget.dart';
 import 'package:neat_alarm/widgets/timer_alarm_widget.dart';
-
-import 'calendar_alarm_widget.dart';
-import 'clock_alarm_widget.dart';
+import 'package:neat_alarm/widgets/calendar_alarm_widget.dart';
+import 'package:neat_alarm/widgets/clock_alarm_widget.dart';
 
 class ListWidget<T extends Alarm> extends StatefulWidget {
   final String title;
