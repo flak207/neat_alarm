@@ -24,7 +24,7 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
 
   @override
   void initState() {
-    _alarms = StorageService().getCalendarAlarms();
+    _alarms = StorageService().getAlarms();
     _updateAlarmsState();
     super.initState();
   }
@@ -99,7 +99,7 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
         _addLocalTimer(alarm);
       }
     });
-    StorageService().setCalendarAlarms(_alarms);
+    StorageService().saveAlarms(_alarms);
   }
 
   void _onEditItemPressed(CalendarAlarm alarm) {
@@ -116,7 +116,7 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
     setState(() {
       _alarms.remove(alarm);
       NotificationService().cancelAlarmNotification(alarm);
-      StorageService().setCalendarAlarms(_alarms);
+      StorageService().saveAlarms(_alarms);
     });
   }
 
@@ -132,7 +132,7 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
-      StorageService().setCalendarAlarms(_alarms);
+      StorageService().saveAlarms(_alarms);
     });
   }
 

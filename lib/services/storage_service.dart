@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:neat_alarm/models/alarm.dart';
 import 'package:neat_alarm/models/calendar_alarm.dart';
 import 'package:neat_alarm/models/clock_alarm.dart';
 import 'package:neat_alarm/models/timer_alarm.dart';
@@ -14,67 +15,51 @@ class StorageService {
     return _notificationService;
   }
 
-  StorageService._internal();
+  StorageService._internal() {
+    _typeKeys = {
+      ClockAlarm: _alarmsKey,
+      TimerAlarm: _timersKey,
+      CalendarAlarm: _calendarKey,
+    };
+    _typeMethods = {
+      ClockAlarm: ClockAlarm.fromJson,
+      TimerAlarm: TimerAlarm.fromJson,
+      CalendarAlarm: CalendarAlarm.fromJson,
+    };
+  }
+
   //#endregion
 
   SharedPreferences? _sharedPreferences;
   final String _alarmsKey = "neat_alarms";
   final String _timersKey = "neat_timers";
   final String _calendarKey = "neat_calendars";
+  late final Map<Type, String> _typeKeys;
+  late final Map<Type, Function> _typeMethods;
 
   Future<void> init() async {
     _sharedPreferences ??= await SharedPreferences.getInstance();
   }
 
-  List<ClockAlarm> getClockAlarms() {
-    String? alarmsString = _sharedPreferences!.getString(_alarmsKey);
+  List<T> getAlarms<T extends Alarm>() {
+    String key = _typeKeys[T] ?? _alarmsKey;
+    String? alarmsString = _sharedPreferences!.getString(key);
     if (alarmsString == null) {
       return [];
     }
+
+    Function jsonMethod = _typeMethods[T] ?? Alarm.fromJson;
     List decodedAlarms = jsonDecode(alarmsString);
-    List<ClockAlarm> alarms = decodedAlarms
-        .map((decodedAlarm) => ClockAlarm.fromJson(decodedAlarm))
+    List<T> alarms = decodedAlarms
+        .map((decodedAlarm) => jsonMethod(decodedAlarm) as T)
         .toList();
     return alarms;
   }
 
-  void setClockAlarms(List<ClockAlarm> alarms) {
+  void saveAlarms<T extends Alarm>(List<T> alarms) {
+    String key = _typeKeys[T] ?? _alarmsKey;
     String encoded = jsonEncode(alarms);
-    _sharedPreferences!.setString(_alarmsKey, encoded);
-  }
-
-  List<TimerAlarm> getTimers() {
-    String? alarmsString = _sharedPreferences!.getString(_timersKey);
-    if (alarmsString == null) {
-      return [];
-    }
-    List decodedAlarms = jsonDecode(alarmsString);
-    List<TimerAlarm> alarms = decodedAlarms
-        .map((decodedAlarm) => TimerAlarm.fromJson(decodedAlarm))
-        .toList();
-    return alarms;
-  }
-
-  void setTimers(List<TimerAlarm> alarms) {
-    String encoded = jsonEncode(alarms);
-    _sharedPreferences!.setString(_timersKey, encoded);
-  }
-
-  List<CalendarAlarm> getCalendarAlarms() {
-    String? alarmsString = _sharedPreferences!.getString(_calendarKey);
-    if (alarmsString == null) {
-      return [];
-    }
-    List decodedAlarms = jsonDecode(alarmsString);
-    List<CalendarAlarm> alarms = decodedAlarms
-        .map((decodedAlarm) => CalendarAlarm.fromJson(decodedAlarm))
-        .toList();
-    return alarms;
-  }
-
-  void setCalendarAlarms(List<CalendarAlarm> alarms) {
-    String encoded = jsonEncode(alarms);
-    _sharedPreferences!.setString(_calendarKey, encoded);
+    _sharedPreferences!.setString(key, encoded);
   }
 
   Future<bool> clearAll() async {

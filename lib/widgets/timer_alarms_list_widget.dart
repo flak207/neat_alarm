@@ -10,6 +10,8 @@ import 'package:neat_alarm/services/storage_service.dart';
 import 'package:neat_alarm/widgets/item_widget.dart';
 import 'package:neat_alarm/widgets/timer_alarm_widget.dart';
 
+import 'list_widget.dart';
+
 class TimerAlarmsListWidget extends StatefulWidget {
   const TimerAlarmsListWidget({Key? key}) : super(key: key);
 
@@ -17,12 +19,12 @@ class TimerAlarmsListWidget extends StatefulWidget {
   _TimerAlarmsListWidgetState createState() => _TimerAlarmsListWidgetState();
 }
 
-class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
+class _TimerAlarmsListWidgetState extends ListWidgetState {
   List<TimerAlarm> _alarms = [];
 
   @override
   void initState() {
-    _alarms = StorageService().getTimers();
+    _alarms = StorageService().getAlarms<TimerAlarm>();
     _updateAlarmsState();
     super.initState();
   }
@@ -102,7 +104,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
         _addLocalTimer(alarm);
       }
     });
-    StorageService().setTimers(_alarms);
+    StorageService().saveAlarms(_alarms);
   }
 
   void _onEditItemPressed(TimerAlarm alarm) {
@@ -119,7 +121,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
     setState(() {
       _alarms.remove(alarm);
       NotificationService().cancelAlarmNotification(alarm);
-      StorageService().setTimers(_alarms);
+      StorageService().saveAlarms(_alarms);
     });
   }
 
@@ -136,7 +138,7 @@ class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
-      StorageService().setTimers(_alarms);
+      StorageService().saveAlarms(_alarms);
     });
   }
 

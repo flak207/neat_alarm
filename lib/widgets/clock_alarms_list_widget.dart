@@ -23,7 +23,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
 
   @override
   void initState() {
-    _alarms = StorageService().getClockAlarms();
+    _alarms = StorageService().getAlarms();
     super.initState();
   }
 
@@ -104,7 +104,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
         _addLocalTimer(alarm);
       }
     });
-    StorageService().setClockAlarms(_alarms);
+    StorageService().saveAlarms(_alarms);
   }
 
   void _onEditItemPressed(ClockAlarm alarm) {
@@ -121,7 +121,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
     setState(() {
       _alarms.remove(alarm);
       NotificationService().cancelAlarmNotification(alarm);
-      StorageService().setClockAlarms(_alarms);
+      StorageService().saveAlarms(_alarms);
     });
   }
 
@@ -137,7 +137,7 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
       } else {
         NotificationService().cancelAlarmNotification(alarm);
       }
-      StorageService().setClockAlarms(_alarms);
+      StorageService().saveAlarms(_alarms);
     });
   }
 
