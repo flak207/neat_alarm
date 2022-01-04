@@ -8,7 +8,18 @@ import 'package:neat_alarm/models/timer_alarm.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
-  //#region Singletone
+  SharedPreferences? _sharedPreferences;
+  final String _alarmsKey = "neat_alarms";
+  final String _timersKey = "neat_timers";
+  final String _calendarKey = "neat_calendars";
+  final Map<Type, Function> _typeMethods = {
+    ClockAlarm: ClockAlarm.fromJson,
+    TimerAlarm: TimerAlarm.fromJson,
+    CalendarAlarm: CalendarAlarm.fromJson,
+  };
+  late final Map<Type, String> _typeKeys;
+
+  //#region Constructor (singletone)
   static final StorageService _notificationService = StorageService._internal();
 
   factory StorageService() {
@@ -21,21 +32,9 @@ class StorageService {
       TimerAlarm: _timersKey,
       CalendarAlarm: _calendarKey,
     };
-    _typeMethods = {
-      ClockAlarm: ClockAlarm.fromJson,
-      TimerAlarm: TimerAlarm.fromJson,
-      CalendarAlarm: CalendarAlarm.fromJson,
-    };
   }
 
   //#endregion
-
-  SharedPreferences? _sharedPreferences;
-  final String _alarmsKey = "neat_alarms";
-  final String _timersKey = "neat_timers";
-  final String _calendarKey = "neat_calendars";
-  late final Map<Type, String> _typeKeys;
-  late final Map<Type, Function> _typeMethods;
 
   Future<void> init() async {
     _sharedPreferences ??= await SharedPreferences.getInstance();

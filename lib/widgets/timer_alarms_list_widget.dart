@@ -10,7 +10,7 @@ import 'package:neat_alarm/services/storage_service.dart';
 import 'package:neat_alarm/widgets/item_widget.dart';
 import 'package:neat_alarm/widgets/timer_alarm_widget.dart';
 
-import 'list_widget.dart';
+// import 'list_widget.dart';
 
 class TimerAlarmsListWidget extends StatefulWidget {
   const TimerAlarmsListWidget({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class TimerAlarmsListWidget extends StatefulWidget {
   _TimerAlarmsListWidgetState createState() => _TimerAlarmsListWidgetState();
 }
 
-class _TimerAlarmsListWidgetState extends ListWidgetState {
+class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {
   List<TimerAlarm> _alarms = [];
 
   @override

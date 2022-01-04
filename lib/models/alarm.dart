@@ -40,6 +40,13 @@ class Alarm {
         isActiveKey: isActive
       };
 
+  DateTime getActualDateTime() {
+    if (dateTime.isBefore(DateTime.now())) {
+      return dateTime.add(const Duration(days: 1));
+    }
+    return dateTime;
+  }
+
   Widget buildTitle(BuildContext context) => Text(name);
 
   Widget buildSubtitle(BuildContext context) {
@@ -52,6 +59,8 @@ class Alarm {
     }
     return Text(subtitle);
   }
+
+  Widget buildEditWidget(BuildContext context, Function callback) => Text(name);
 
   String getFormatedTime() => DateFormat('HH:mm:ss').format(dateTime);
 

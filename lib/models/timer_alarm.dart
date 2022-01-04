@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:neat_alarm/models/alarm.dart';
+import 'package:neat_alarm/widgets/timer_alarm_widget.dart';
 
 const hoursKey = "hours";
 const minutesKey = "minutes";
@@ -23,6 +24,12 @@ class TimerAlarm extends Alarm {
     hours = json[hoursKey];
     minutes = json[minutesKey];
     seconds = json[secondsKey];
+  }
+
+  @override
+  DateTime getActualDateTime() {
+    return DateTime.now()
+        .add(Duration(hours: hours, minutes: minutes, seconds: seconds));
   }
 
   @override
@@ -51,5 +58,11 @@ class TimerAlarm extends Alarm {
       subtitle += 'The timer is not active.';
     }
     return Text(subtitle);
+  }
+
+  @override
+  Widget buildEditWidget(BuildContext context, Function callback) {
+    var retval = TimerAlarmWidget(callback, alarm: this);
+    return retval;
   }
 }

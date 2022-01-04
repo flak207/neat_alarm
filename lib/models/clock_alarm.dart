@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:neat_alarm/models/alarm.dart';
+import 'package:neat_alarm/widgets/clock_alarm_widget.dart';
 
 const isRecurringKey = "isRecurring";
 
@@ -43,5 +44,11 @@ class ClockAlarm extends Alarm {
       subtitle += 'The alarm is not active.';
     }
     return Text(subtitle);
+  }
+
+  @override
+  Widget buildEditWidget(BuildContext context, Function callback) {
+    var retval = ClockAlarmWidget(callback, alarm: this);
+    return retval;
   }
 }

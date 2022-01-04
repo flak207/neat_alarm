@@ -1,13 +1,14 @@
+import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:timezone/data/latest.dart' as tz;
-import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 import 'package:neat_alarm/constants.dart';
+import 'package:neat_alarm/models/calendar_alarm.dart';
+import 'package:neat_alarm/models/clock_alarm.dart';
+import 'package:neat_alarm/models/timer_alarm.dart';
+import 'package:neat_alarm/widgets/list_widget.dart';
 import 'package:neat_alarm/services/notification_service.dart';
 import 'package:neat_alarm/services/storage_service.dart';
-import 'package:neat_alarm/widgets/clock_alarms_list_widget.dart';
-import 'package:neat_alarm/widgets/timer_alarms_list_widget.dart';
-import 'package:neat_alarm/widgets/calendar_alarms_list_widget.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,9 +41,9 @@ class _NavigationWidgetState extends State<NavigationWidget> {
   int _selectedIndex = 1;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    ClockAlarmsListWidget(),
-    TimerAlarmsListWidget(),
-    CalendarAlarmsListWidget(),
+    ListWidget<ClockAlarm>(alarmsTitle),
+    ListWidget<TimerAlarm>(timersTitle),
+    ListWidget<CalendarAlarm>(calendarTitle),
   ];
 
   @override

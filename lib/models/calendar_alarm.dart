@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:neat_alarm/models/alarm.dart';
+import 'package:neat_alarm/widgets/calendar_alarm_widget.dart';
 
 const isRecurringKey = "isRecurring";
 
@@ -34,6 +36,14 @@ class CalendarAlarm extends Alarm {
   }
 
   @override
+  DateTime getActualDateTime() {
+    if (dateTime.isBefore(DateTime.now())) {
+      return Jiffy(dateTime).add(years: 1).dateTime;
+    }
+    return dateTime;
+  }
+
+  @override
   Widget buildSubtitle(BuildContext context) {
     String subtitle = '${DateFormat('yyyy-MM-dd').format(dateTime)}\n';
     if (isActive) {
@@ -42,5 +52,11 @@ class CalendarAlarm extends Alarm {
       subtitle += 'The alarm is not active.';
     }
     return Text(subtitle);
+  }
+
+  @override
+  Widget buildEditWidget(BuildContext context, Function callback) {
+    var retval = CalendarAlarmWidget(callback, alarm: this);
+    return retval;
   }
 }
