@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:day_picker/day_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 
@@ -30,6 +31,16 @@ class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
 
   String _soundName = 'Default Sound';
   String _soundPath = '';
+
+  final List<DayInWeek> _days = [
+    DayInWeek("Mon"),
+    DayInWeek("Tue"),
+    DayInWeek("Wed"),
+    DayInWeek("Thu"),
+    DayInWeek("Fri"),
+    DayInWeek("Sat"),
+    DayInWeek("Sun"),
+  ];
 
   @override
   void initState() {
@@ -124,6 +135,21 @@ class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
               ),
               soundContainer,
               dtCtrl,
+              SelectWeekDays(
+                days: _days,
+                border: false,
+                backgroundColor: Colors.blue,
+                unSelectedDayTextColor: appForeground,
+                selectedDayTextColor: appForeground,
+                boxDecoration: BoxDecoration(
+                  color: appBackground,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                onSelect: (values) {
+                  // <== Callback to handle the selected days
+                  debugPrint(values.toString());
+                },
+              ),
               Padding(padding: const EdgeInsets.only(top: 10), child: addBtn)
             ],
           ),
