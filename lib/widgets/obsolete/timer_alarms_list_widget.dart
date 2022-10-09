@@ -16,7 +16,7 @@ class TimerAlarmsListWidget extends StatefulWidget {
   const TimerAlarmsListWidget({Key? key}) : super(key: key);
 
   @override
-  _TimerAlarmsListWidgetState createState() => _TimerAlarmsListWidgetState();
+  State<TimerAlarmsListWidget> createState() => _TimerAlarmsListWidgetState();
 }
 
 class _TimerAlarmsListWidgetState extends State<TimerAlarmsListWidget> {

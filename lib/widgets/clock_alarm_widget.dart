@@ -20,7 +20,7 @@ class ClockAlarmWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ClockAlarmWidgetState createState() => _ClockAlarmWidgetState();
+  State<ClockAlarmWidget> createState() => _ClockAlarmWidgetState();
 }
 
 class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
@@ -70,11 +70,11 @@ class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
             ),
           ),
           TextButton(
-            style: TextButton.styleFrom(primary: Colors.blue),
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
+            onPressed: _presentDatePicker,
             child: const Text(
               'Choose Time',
             ),
-            onPressed: _presentDatePicker,
           ),
         ],
       ),
@@ -82,7 +82,7 @@ class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
 
     var addBtn = ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: appBackground, onPrimary: appForeground),
+          backgroundColor: appBackground, foregroundColor: appForeground),
       onPressed: _submitData,
       child: Text(widget.alarm != null ? 'Update Alarm' : 'Add Alarm'),
     );
@@ -103,7 +103,7 @@ class _ClockAlarmWidgetState extends State<ClockAlarmWidget> {
             ),
           ),
           TextButton(
-            style: TextButton.styleFrom(primary: Colors.blue),
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
             onPressed: _selectSound,
             child: const Text('Choose Sound'),
           )

@@ -17,7 +17,7 @@ class TimerAlarmWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TimerAlarmWidgetState createState() => _TimerAlarmWidgetState();
+  State<TimerAlarmWidget> createState() => _TimerAlarmWidgetState();
 }
 
 class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
@@ -49,7 +49,7 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
   Widget build(BuildContext context) {
     var addBtn = ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: appBackground, onPrimary: appForeground),
+          backgroundColor: appBackground, foregroundColor: appForeground),
       onPressed: _submitData,
       child: Text(widget.alarm != null ? 'Update Timer' : 'Add Timer'),
     );
@@ -70,7 +70,7 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
             ),
           ),
           TextButton(
-            style: TextButton.styleFrom(primary: Colors.blue),
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
             onPressed: _selectSound,
             child: const Text('Choose Sound'),
           )
@@ -105,19 +105,38 @@ class _TimerAlarmWidgetState extends State<TimerAlarmWidget> {
                   min: 0,
                   value: _hours.toDouble(),
                   max: 99,
-                  decoration: const InputDecoration(labelText: 'Hours'),
+                  decoration: const InputDecoration(
+                      // labelText: 'Hours',
+                      label: Padding(
+                          padding: EdgeInsets.only(left: 80),
+                          child: Text('Hours')),
+                      //Center(child: Text('Hours')),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey))),
                   onChanged: (value) => _hours = value),
               SpinBox(
                   min: 0,
                   value: _minutes.toDouble(),
                   max: 99,
-                  decoration: const InputDecoration(labelText: 'Minutes'),
+                  decoration: const InputDecoration(
+                      //labelText: 'Minutes',
+                      label: Padding(
+                          padding: EdgeInsets.only(left: 80),
+                          child: Text('Minutes')),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey))),
                   onChanged: (value) => _minutes = value),
               SpinBox(
                   min: 0,
                   value: _seconds.toDouble(),
                   max: 99,
-                  decoration: const InputDecoration(labelText: 'Seconds'),
+                  decoration: const InputDecoration(
+                      //labelText: 'Seconds',
+                      label: Padding(
+                          padding: EdgeInsets.only(left: 80),
+                          child: Text('Seconds')),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey))),
                   onChanged: (value) => _seconds = value),
               Padding(padding: const EdgeInsets.only(top: 10), child: addBtn)
             ],

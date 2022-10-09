@@ -31,8 +31,7 @@ class NotificationService {
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
-    await _notificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification);
+    await _notificationsPlugin.initialize(initializationSettings);
   }
 
   // Callback for notification tapped
@@ -41,13 +40,13 @@ class NotificationService {
   }
 
   void showNotification(String notificationMessage) async {
-    var _channelId = UniqueKey().toString();
+    var channelId = UniqueKey().toString();
     var platformChannelSpecifics = NotificationDetails(
       android: AndroidNotificationDetails(
-        _channelId,
+        channelId,
         applicationName,
         fullScreenIntent: true,
-        channelDescription: 'channel $_channelId description',
+        channelDescription: 'channel $channelId description',
         importance: Importance.high,
         playSound: true,
         priority: Priority.high,
@@ -68,7 +67,7 @@ class NotificationService {
   }
 
   void scheduleAlarmNotification(Alarm alarm) async {
-    var _channelId = UniqueKey().toString();
+    var channelId = UniqueKey().toString();
     DateTime now = DateTime.now();
     DateTime dt = alarm.dateTime;
     Duration difference = dt.difference(now);
@@ -76,9 +75,9 @@ class NotificationService {
     var alarmSound = alarm.soundPath.isEmpty
         ? null
         : UriAndroidNotificationSound(alarm.soundPath);
-    var androidDetails = AndroidNotificationDetails(_channelId, applicationName,
+    var androidDetails = AndroidNotificationDetails(channelId, applicationName,
         fullScreenIntent: true,
-        channelDescription: 'channel $_channelId description',
+        channelDescription: 'channel $channelId description',
         importance: Importance.high,
         playSound: true,
         priority: Priority.high,

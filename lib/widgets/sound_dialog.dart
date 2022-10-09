@@ -21,7 +21,7 @@ class SoundDialog extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SoundDialogState createState() => _SoundDialogState();
+  State<SoundDialog> createState() => _SoundDialogState();
 }
 
 class _SoundDialogState extends State<SoundDialog> {
@@ -64,21 +64,21 @@ class _SoundDialogState extends State<SoundDialog> {
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             actions: <Widget>[
               TextButton(
-                child: const Text('CANCEL'),
-                style: TextButton.styleFrom(primary: Colors.blue),
+                style: TextButton.styleFrom(foregroundColor: Colors.blue),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+                child: const Text('CANCEL'),
               ),
               TextButton(
-                child: const Text('OK'),
-                style: TextButton.styleFrom(primary: Colors.blue),
+                style: TextButton.styleFrom(foregroundColor: Colors.blue),
                 onPressed: () {
                   String soundName = _sounds[_selectedIndex];
                   String soundPath = _soundsDict![soundName] ?? '';
                   widget.updateSound(soundName, soundPath);
                   Navigator.of(context).pop();
                 },
+                child: const Text('OK'),
               ),
             ],
             content: SingleChildScrollView(

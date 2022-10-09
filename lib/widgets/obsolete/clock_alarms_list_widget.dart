@@ -15,7 +15,7 @@ class ClockAlarmsListWidget extends StatefulWidget {
   const ClockAlarmsListWidget({Key? key}) : super(key: key);
 
   @override
-  _ClockAlarmsListWidgetState createState() => _ClockAlarmsListWidgetState();
+  State<ClockAlarmsListWidget> createState() => _ClockAlarmsListWidgetState();
 }
 
 class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
@@ -85,8 +85,8 @@ class _ClockAlarmsListWidgetState extends State<ClockAlarmsListWidget> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: ClockAlarmWidget(_addNewAlarm),
           behavior: HitTestBehavior.opaque,
+          child: ClockAlarmWidget(_addNewAlarm),
         );
       },
     );

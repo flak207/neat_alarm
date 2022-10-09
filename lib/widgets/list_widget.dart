@@ -20,7 +20,7 @@ class ListWidget<T extends Alarm> extends StatefulWidget {
   const ListWidget(this.title, {Key? key}) : super(key: key);
 
   @override
-  _ListWidgetState<T> createState() => _ListWidgetState<T>();
+  State<ListWidget> createState() => _ListWidgetState<T>();
 }
 
 class _ListWidgetState<T extends Alarm> extends State<ListWidget> {

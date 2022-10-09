@@ -15,7 +15,7 @@ class CalendarAlarmsListWidget extends StatefulWidget {
   const CalendarAlarmsListWidget({Key? key}) : super(key: key);
 
   @override
-  _CalendarAlarmsListWidgetState createState() =>
+  State<CalendarAlarmsListWidget> createState() =>
       _CalendarAlarmsListWidgetState();
 }
 
@@ -80,8 +80,8 @@ class _CalendarAlarmsListWidgetState extends State<CalendarAlarmsListWidget> {
       builder: (_) {
         return GestureDetector(
           onTap: () {},
-          child: CalendarAlarmWidget(_addNewAlarm),
           behavior: HitTestBehavior.opaque,
+          child: CalendarAlarmWidget(_addNewAlarm),
         );
       },
     );

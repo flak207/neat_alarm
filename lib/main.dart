@@ -34,7 +34,7 @@ class NavigationWidget extends StatefulWidget {
   const NavigationWidget({Key? key}) : super(key: key);
 
   @override
-  _NavigationWidgetState createState() => _NavigationWidgetState();
+  State<NavigationWidget> createState() => _NavigationWidgetState();
 }
 
 class _NavigationWidgetState extends State<NavigationWidget> {

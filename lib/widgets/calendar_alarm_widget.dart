@@ -18,7 +18,7 @@ class CalendarAlarmWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _CalendarAlarmWidgetState createState() => _CalendarAlarmWidgetState();
+  State<CalendarAlarmWidget> createState() => _CalendarAlarmWidgetState();
 }
 
 class _CalendarAlarmWidgetState extends State<CalendarAlarmWidget> {
@@ -58,11 +58,11 @@ class _CalendarAlarmWidgetState extends State<CalendarAlarmWidget> {
             ),
           ),
           TextButton(
-            style: TextButton.styleFrom(primary: Colors.blue),
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
+            onPressed: _presentDatePicker,
             child: const Text(
               'Choose Time',
             ),
-            onPressed: _presentDatePicker,
           ),
         ],
       ),
@@ -70,7 +70,7 @@ class _CalendarAlarmWidgetState extends State<CalendarAlarmWidget> {
 
     var addBtn = ElevatedButton(
       style: ElevatedButton.styleFrom(
-          primary: appBackground, onPrimary: appForeground),
+          backgroundColor: appBackground, foregroundColor: appForeground),
       onPressed: _submitData,
       child: Text(widget.alarm != null ? 'Update Alarm' : 'Add Alarm'),
     );
@@ -91,7 +91,7 @@ class _CalendarAlarmWidgetState extends State<CalendarAlarmWidget> {
             ),
           ),
           TextButton(
-            style: TextButton.styleFrom(primary: Colors.blue),
+            style: TextButton.styleFrom(foregroundColor: Colors.blue),
             onPressed: _selectSound,
             child: const Text('Choose Sound'),
           )
